@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import memoize from 'lodash.memoize'
+import { Profile } from '@openworklabs/aragon-profile'
 import { AppCenter, Home, Organization, Permissions } from './apps'
 import App404 from './components/App404/App404'
 import AppIFrame from './components/App/AppIFrame'
@@ -19,6 +20,7 @@ import {
   AragonType,
   DaoAddressType,
   DaoStatusType,
+  EthereumAddressType,
   RepoType,
 } from './prop-types'
 import { getAppPath } from './routing'
@@ -34,6 +36,7 @@ const OCTOBER_1ST_2019 = new Date('October 1 2019 00:00').getTime()
 
 class Wrapper extends React.PureComponent {
   static propTypes = {
+    account: EthereumAddressType,
     apps: PropTypes.arrayOf(AppType).isRequired,
     appsStatus: AppsStatusType.isRequired,
     canUpgradeOrg: PropTypes.bool,
@@ -45,6 +48,7 @@ class Wrapper extends React.PureComponent {
     identityEvents$: PropTypes.object.isRequired,
     locator: PropTypes.object.isRequired,
     onRequestEnable: PropTypes.func.isRequired,
+    onSignatures: PropTypes.func.isRequired,
     openPreferences: PropTypes.func.isRequired,
     permissionsLoading: PropTypes.bool.isRequired,
     repos: PropTypes.arrayOf(RepoType).isRequired,
@@ -154,8 +158,14 @@ class Wrapper extends React.PureComponent {
   }
 
   openApp = (instanceId, { params, localPath } = {}) => {
-    const { historyPush, locator } = this.props
-    historyPush(getAppPath({ dao: locator.dao, instanceId, params, localPath }))
+    const { historyPush, locator, account } = this.props
+    instanceId === 'profile'
+      ? historyPush(
+          `${getAppPath({ dao: locator.dao, instanceId })}/${account}`
+        )
+      : historyPush(
+          getAppPath({ dao: locator.dao, instanceId, params, localPath })
+        )
   }
 
   handleAppIFrameRef = appIFrame => {
@@ -298,6 +308,7 @@ class Wrapper extends React.PureComponent {
           connected={connected}
           daoAddress={daoAddress}
           daoStatus={daoStatus}
+          locator={locator}
           onOpenApp={this.openApp}
           onOpenPreferences={openPreferences}
           onRequestEnable={onRequestEnable}
@@ -349,10 +360,13 @@ class Wrapper extends React.PureComponent {
   }
   renderApp(instanceId, { params, localPath }) {
     const {
+      account,
       apps,
       appsStatus,
       canUpgradeOrg,
       daoAddress,
+      locator,
+      onSignatures,
       permissionsLoading,
       repos,
       walletNetwork,
@@ -423,6 +437,16 @@ class Wrapper extends React.PureComponent {
             walletProviderId={walletProviderId}
           />
         </AppInternal>
+      )
+    }
+
+    if (instanceId === 'profile') {
+      return (
+        <Profile
+          account={account}
+          onSignatures={onSignatures}
+          parts={locator.parts}
+        />
       )
     }
 

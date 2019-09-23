@@ -24,7 +24,7 @@ const initialEmbeddedTemplates = embeddedTemplates.map(template => ({
   status: TEMPLATE_LOADING,
 }))
 
-function Onboarding({ status, selectorNetworks, walletWeb3, web3 }) {
+function Onboarding({ locator, status, selectorNetworks, walletWeb3, web3 }) {
   const theme = useTheme()
   const {
     balance,
@@ -199,7 +199,12 @@ function Onboarding({ status, selectorNetworks, walletWeb3, web3 }) {
 
   return (
     <div css="position: relative; z-index: 1">
-      <OnboardingTopBar onHome={goToHome} status={status} solid={solidTopBar} />
+      <OnboardingTopBar
+        locator={locator}
+        onHome={goToHome}
+        status={status}
+        solid={solidTopBar}
+      />
       <div
         onScroll={handleOnBoardingScroll}
         css={`
@@ -252,6 +257,7 @@ function Onboarding({ status, selectorNetworks, walletWeb3, web3 }) {
 }
 
 Onboarding.propTypes = {
+  locator: PropTypes.object.isRequired,
   status: PropTypes.oneOf(['none', 'welcome', 'open', 'create']).isRequired,
   selectorNetworks: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
     .isRequired,

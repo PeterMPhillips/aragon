@@ -240,10 +240,7 @@ class App extends React.Component {
         log('transaction bag', transactionBag)
         this.setState({ transactionBag })
       },
-      onSignatures: signatureBag => {
-        log('signature bag', signatureBag)
-        this.setState({ signatureBag })
-      },
+      onSignatures: this.onSignatures,
       onIdentityIntent: async identityIntent => {
         // set the state for modifying a specific address identity
         let name = null
@@ -274,6 +271,11 @@ class App extends React.Component {
           fatalError: err,
         })
       })
+  }
+
+  onSignatures = signatureBag => {
+    log('signature bag', signatureBag)
+    this.setState({ signatureBag })
   }
 
   handleIdentityCancel = () => {
@@ -440,6 +442,7 @@ class App extends React.Component {
                                     this.handleRequestAppsReload
                                   }
                                   onRequestEnable={enableWallet}
+                                  onSignatures={this.onSignatures}
                                   openPreferences={this.openPreferences}
                                   permissionsLoading={permissionsLoading}
                                   repos={repos}
@@ -458,6 +461,7 @@ class App extends React.Component {
                               account={account}
                               balance={balance}
                               isContractAccount={isContractAccount}
+                              locator={locator}
                               selectorNetworks={selectorNetworks}
                               status={
                                 mode === APP_MODE_START ||

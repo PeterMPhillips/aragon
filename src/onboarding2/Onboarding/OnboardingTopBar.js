@@ -11,7 +11,7 @@ import {
 import AccountModule from '../../components/AccountModule/AccountModule'
 import logo from '../../assets/logo.png'
 
-function OnboardingTopBar({ onHome, status, solid }) {
+function OnboardingTopBar({ locator, onHome, status, solid }) {
   const theme = useTheme()
 
   const handleSettingsClick = useCallback(() => {
@@ -83,7 +83,7 @@ function OnboardingTopBar({ onHome, status, solid }) {
               margin-right: ${1 * GU}px;
             `}
           >
-            <AccountModule compact />
+            <AccountModule compact locator={locator} />
           </div>
           <Button
             display="icon"
@@ -99,6 +99,7 @@ function OnboardingTopBar({ onHome, status, solid }) {
 }
 
 OnboardingTopBar.propTypes = {
+  locator: PropTypes.object.isRequired,
   onHome: PropTypes.func.isRequired,
 }
 
