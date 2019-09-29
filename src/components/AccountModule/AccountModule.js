@@ -15,7 +15,6 @@ import {
 } from '@aragon/ui'
 import { shortenAddress } from '../../web3-utils'
 import { useAccount } from '../../account'
-import { getAppPath } from '../../routing'
 
 function getNetworkName(networkId) {
   if (networkId === 'main') return 'Mainnet'
@@ -90,13 +89,10 @@ function ConnectedMode({ locator }) {
           background: ${theme.surfacePressed};
         }
       `}
-      href={
-        locator.instanceId.toLowerCase() === 'profile'
-          ? `${window.location.origin}#${getAppPath(locator)}/${address}`
-          : `${window.location.origin}#${getAppPath(
-              locator
-            )}/profile/${address}`
-      }
+      href={`${window.location.origin}#/${locator.dao.substr(
+        0,
+        locator.dao.indexOf('.')
+      )}/profile/${address}`}
     >
       {/* <ButtonBase
         onClick={open}
