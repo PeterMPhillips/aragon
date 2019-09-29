@@ -366,6 +366,7 @@ class Wrapper extends React.PureComponent {
       canUpgradeOrg,
       daoAddress,
       locator,
+      onRequestEnable,
       onSignatures,
       permissionsLoading,
       repos,
@@ -444,8 +445,10 @@ class Wrapper extends React.PureComponent {
       return (
         <Profile
           account={account}
+          enableWallet={onRequestEnable}
           onSignatures={onSignatures}
           parts={locator.parts}
+          web3Provider={walletWeb3.currentProvider}
         />
       )
     }
