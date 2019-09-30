@@ -28,7 +28,7 @@
     "@aragon/ui": "^1.0.0-alpha.26",
     "@aragon/wrapper": "^5.0.0-rc.17",
     "@babel/polyfill": "^7.0.0",
-    "@openworklabs/aragon-profile": "0.1.18",
+    "@openworklabs/aragon-profile": "0.1.19",
     "@sentry/browser": "^5.5.0",
     "@ungap/event-target": "^0.1.0",
     "date-fns": "2.0.0-alpha.22",
