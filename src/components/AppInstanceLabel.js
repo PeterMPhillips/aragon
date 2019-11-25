@@ -6,6 +6,21 @@ import { AppType, EthereumAddressType } from '../prop-types'
 import { shortenAddress } from '../web3-utils'
 import AppIcon from './AppIcon/AppIcon'
 
+export const ProfileInstanceLabel = () => {
+  return (
+    <Main>
+      <Tag
+        mode="identifier"
+        label="Aragon Profile"
+        title="Aragon Profile"
+        css={`
+          margin-left: ${1 * GU}px;
+        `}
+      />
+    </Main>
+  )
+}
+
 const AppInstanceLabel = React.memo(
   ({ app, proxyAddress, showIcon = true }) => {
     const { above } = useViewport()

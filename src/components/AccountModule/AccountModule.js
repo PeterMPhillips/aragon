@@ -22,9 +22,18 @@ function getNetworkName(networkId) {
   return networkId
 }
 
-function AccountModule({ compact }) {
+function AccountModule({ compact, locator }) {
   const { connected } = useAccount()
-  return connected ? <ConnectedMode /> : <NonConnectedMode compact={compact} />
+  return connected ? (
+    <ConnectedMode locator={locator} />
+  ) : (
+    <NonConnectedMode compact={compact} />
+  )
+}
+
+AccountModule.propTypes = {
+  compact: PropTypes.bool.isRequired,
+  locator: PropTypes.object.isRequired,
 }
 
 AccountModule.propTypes = {
@@ -57,7 +66,7 @@ NonConnectedMode.propTypes = {
   compact: PropTypes.bool,
 }
 
-function ConnectedMode() {
+function ConnectedMode({ locator }) {
   const { address, label, networkId } = useAccount()
   const theme = useTheme()
   // const [opened, setOpened] = useState(false)
@@ -75,13 +84,20 @@ function ConnectedMode() {
   const networkName = getNetworkName(networkId)
 
   return (
-    <div
+    <a
       ref={containerRef}
       css={`
         display: flex;
         height: 100%;
         ${unselectable};
+        text-decoration: none;
+        color: inherit
+        cursor: pointer;
+        &:hover {
+          background: ${theme.surfacePressed};
+        }
       `}
+      href={`${window.location.origin}#/${locator.dao}/profile/${address}`}
     >
       {/* <ButtonBase
         onClick={open}
@@ -199,8 +215,12 @@ function ConnectedMode() {
           </div>
         </section>
       </Popover>
-    </div>
+    </a>
   )
+}
+
+ConnectedMode.propTypes = {
+  locator: PropTypes.object.isRequired,
 }
 
 export default AccountModule
