@@ -370,6 +370,9 @@ const initWrapper = async (
       // Infura hack: delay event processing for specified number of ms
       subscriptionEventDelay: getEthSubscriptionEventDelay(),
     },
+    datastore: {
+      host: 'http://quasar.autark.xyz:3001/api/v0',
+    },
   })
 
   const web3 = getWeb3(walletProvider || provider)
